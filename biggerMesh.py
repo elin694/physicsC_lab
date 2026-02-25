@@ -152,7 +152,7 @@ tickLength = 3;
 tickWidth = .3;
 axisScale = 2;
 origin=[-26,-22,0]
-labelOffset = 7;
+labelOffset = 5;
 def set_visible(objs, state):
     for o in objs: o.visible = state
     #axis
@@ -165,7 +165,7 @@ def set_visible(objs, state):
         arrow(pos=vec(origin[0],origin[1] + axisScale*i,0), axis=vec(-tickLength,0,0), shaftwidth=tickWidth, color = color.black)
         
     for i in range(7):
-        arrow(pos=vec(origin[0],origin[1],i*scaleHeight), axis=vec(-tickLength,-tickLength,0), shaftwidth=tickWidth, color = color.black)
+        arrow(pos=vec(origin[0],origin[1],i*scaleHeight), axis=vec(-tickLength,-tickLength,0), shaftwidth=tickWidth, color = vector(i-3.5,1,3.5-i))
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,6*scaleHeight+2), text = '6V')
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,0*scaleHeight), text = '0V')
     label(pos = vec(origin[0]-labelOffset,origin[1]+axisScale*20+labelOffset,0), text = '20cm')
