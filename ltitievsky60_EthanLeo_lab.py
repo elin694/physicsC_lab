@@ -1,5 +1,4 @@
-from vpython import *
-#Web VPython 3.2
+Web VPython 3.2
 
 
 def csv_parse(fd):
@@ -69,13 +68,16 @@ def grid(values): # mesh potentials. vPython triangles/quads are such a nightmar
             v01 = vector(4*j - 2*H, 4*(i+1) - 2*L, z01)
             v11 = vector(4*(j+1) - 2*H, 4*(i+1) - 2*L, z11)
             v10 = vector(4*(j+1) - 2*H, 4*i - 2*L,    z10)
-
+            edges = [(v00, v01), (v01, v11), (v11, v10), (v10, v00), (v00,v11)]
+            
+            for v_1, v_2 in edges:
+                curve(pos=[v_1,v_2], color = vec(v_1.z * 1/4, 0, 0), radius=.1 )
             # edges as headless arrows
-            arrow(pos=v00, axis=v01-v00, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
-            arrow(pos=v01, axis=v11-v01, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
-            arrow(pos=v11, axis=v10-v11, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
-            arrow(pos=v10, axis=v00-v10, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
-            arrow(pos=v00, axis=v11-v00, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
+           # arrow(pos=v00, axis=v01-v00, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
+            #arrow(pos=v01, axis=v11-v01, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
+           # arrow(pos=v11, axis=v10-v11, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
+           # arrow(pos=v10, axis=v00-v10, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
+           # arrow(pos=v00, axis=v11-v00, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
             #arrow(pos=v01, axis=v10-v01, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0) //optional diagonal, looks prettier without
             
 def get_interp_pos(v1, v2, target): #contour value - https://www.youtube.com/watch?v=G-esV7tB_5s
@@ -132,10 +134,22 @@ mesh_objects = capture(before)
 
 def set_visible(objs, state):
     for o in objs: o.visible = state
-
+    #axis
+    arrow(pos=vec(-29,-25,0), axis=vec(40,0,0), shaftwidth=0.1, color = color.black, headwidth=0 )
+    arrow(pos=vec(-29,-25,0), axis=vec(0,40,0), shaftwidth=0.1, color = color.black, headwidth=0)
+    arrow(pos=vec(-29,-25,0), axis=vec(0,0,6), shaftwidth=0.1, color = color.black, headwidth=0)
+    for i in range(20):
+        arrow(pos=vec(-29 + 4*i,-25,0), axis=vec(0,1,0), shaftwidth=0.1, color = color.black)
+        arrow(pos=vec(-29,-25 + 4*i,0), axis=vec(1,0,0), shaftwidth=0.1, color = color.black)
+        
+    for i in range(6):
+        arrow(pos=vec(-29,-25,i), axis=vec(1,1,0), shaftwidth=0.1, color = color.red)
+    label(pos = vec(-29,-25,6), text = '6V')
+    label(pos = vec(-29,-5,0), text = '10cm')
+    label(pos = vec(-9,-25,0), text = '10cm')
 def toggle_mesh(b):
     mesh_on[0] = not mesh_on[0]
-    b.text = 'Mesh ' + ('ON' if mesh_on[0] else 'OFF')
+    b.text = 'Voltages ' + ('ON' if mesh_on[0] else 'OFF')
     set_visible(mesh_objects, mesh_on[0])
 
 def toggle_ef(b):
@@ -151,3 +165,5 @@ def toggle_eq(b):
 button(text='Mesh ON',    bind=toggle_mesh)
 button(text='E-Field ON', bind=toggle_ef)
 button(text='Equip ON',   bind=toggle_eq)
+
+set_visible(ef_objects, ef_on[0])
