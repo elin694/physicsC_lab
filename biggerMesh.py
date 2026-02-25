@@ -37,14 +37,14 @@ def eField(values): #efield
                 ihat -= (v - cur)/(.02)# right
                 
                 m = (ihat ** 2 + jhat ** 2) ** .5
-                tuning = 1.5
+                tuning = 2
                 ihat *= tuning
                 jhat *= tuning
             arrow(
                      pos = vector(4*j-(2*H), 4*i-(2*L), cur*scaleHeight),
                      color = vec(1/6 * m ,0,0),
                      axis = vec(ihat/m, jhat/m, 0),
-                     opacity = .01 * m
+                     opacity = .01 * m+.3
                     )
 
 
