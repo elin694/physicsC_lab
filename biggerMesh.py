@@ -70,7 +70,9 @@ def grid(values): # mesh potentials. vPython triangles/quads are such a nightmar
             edges = [(v00, v01), (v01, v11), (v11, v10), (v10, v00), (v00,v11)]
             
             for v_1, v_2 in edges:
-                curve(pos=[v_1,v_2], color = vec((v_1.z-3)*255/6, 0,( 255- (v_1.z-3)*255/6)), radius=.1 )
+                rawZ=v_1.z/scaleHeight
+                curve(pos=[v_1,v_2], color = vec(rawZ-3.5,1,3.5-rawZ), radius=.1 )
+                #print(v_1.z) for debugging
             # edges as headless arrows
            # arrow(pos=v00, axis=v01-v00, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
             #arrow(pos=v01, axis=v11-v01, color=color.black, shaftwidth=0.05, headwidth=0, headlength=0)
@@ -118,6 +120,8 @@ def grid_arrows(values, tolerance=0.5): # equipotentials
                     curve(pos=[pts[0], pts[1]], color=color.red, radius=0.05)
 
 scene.background = color.white
+scene.width = 1400
+scene.height = 800
 #scene.userzoom = False
 scene.fov= .000002
 rate(20)
@@ -140,6 +144,7 @@ ef_objects = capture(before)
 
 before = list(scene.objects)
 grid(voltages)
+
 mesh_objects = capture(before)
 
 
@@ -147,7 +152,7 @@ tickLength = 3;
 tickWidth = .3;
 axisScale = 2;
 origin=[-26,-22,0]
-labelOffset = 4;
+labelOffset = 7;
 def set_visible(objs, state):
     for o in objs: o.visible = state
     #axis
@@ -155,12 +160,12 @@ def set_visible(objs, state):
     arrow(pos=vec(origin[0],origin[1],0), axis=vec(0,40,0), shaftwidth=tickWidth, color = color.black, headwidth=0)
     arrow(pos=vec(origin[0],origin[1],0), axis=vec(0,0,6*scaleHeight), shaftwidth=tickWidth, color = color.black, headwidth=0)
     for i in range(25):
-        arrow(pos=vec(origin[0] + axisScale*i,origin[1],0), axis=vec(0,tickLength,0), shaftwidth=tickWidth, color = color.black)
+        arrow(pos=vec(origin[0] + axisScale*i,origin[1],0), axis=vec(0,-tickLength,0), shaftwidth=tickWidth, color = color.black)
     for i in range(21):
-        arrow(pos=vec(origin[0],origin[1] + axisScale*i,0), axis=vec(tickLength,0,0), shaftwidth=tickWidth, color = color.black)
+        arrow(pos=vec(origin[0],origin[1] + axisScale*i,0), axis=vec(-tickLength,0,0), shaftwidth=tickWidth, color = color.black)
         
     for i in range(7):
-        arrow(pos=vec(origin[0],origin[1],i*scaleHeight), axis=vec(tickLength,tickLength,0), shaftwidth=tickWidth, color = color.red)
+        arrow(pos=vec(origin[0],origin[1],i*scaleHeight), axis=vec(-tickLength,-tickLength,0), shaftwidth=tickWidth, color = color.black)
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,6*scaleHeight+2), text = '6V')
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,0*scaleHeight), text = '0V')
     label(pos = vec(origin[0]-labelOffset,origin[1]+axisScale*20+labelOffset,0), text = '20cm')
@@ -190,9 +195,9 @@ def toggle_eq(b):
 def toggle_xy(b):
     scene.forward = vector(0, 0, -1)
 def toggle_yz(b):
-    scene.forward = vector(1, 0, 0)
+    scene.forward = vector(-1, 0, 0)
 def toggle_xz(b):
-    scene.forward = vector(0,-1, 0)
+    scene.forward = vector(0,1, 0)
     
 
 button(text='Mesh ON',    bind=toggle_mesh)
@@ -203,6 +208,11 @@ button(text='View yz plane',   bind=toggle_yz)
 button(text='View xz plane',   bind=toggle_xz)
 
 set_visible(ef_objects, ef_on[0])
-print(scene.forward)
-print(scene.center)
+#print(scene.forward)
+#print(scene.camera.pos)
+#print(scene.center)
+print("hold shift and left mouse click to pan")
 
+scene.userpan = True
+scene.ambient = vec(0.5, 0.5, 0.5);
+scene.up = vector(-.001,0,1)
