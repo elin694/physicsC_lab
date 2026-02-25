@@ -169,12 +169,12 @@ def set_visible(objs, state):
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,6*scaleHeight+2), text = '6V')
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,0*scaleHeight), text = '0V')
     label(pos = vec(origin[0]-labelOffset,origin[1]+axisScale*20+labelOffset,0), text = '20cm')
-    label(pos = vec(origin[0]-labelOffset,origin[1],0), text = '0cm')
+    label(pos = vec(origin[0]-labelOffset,origin[1],-labelOffset), text = '0cm')
     label(pos = vec(origin[0]+axisScale*24+labelOffset,origin[1]-labelOffset,0), text = '24cm')
-    label(pos = vec(origin[0],origin[1]-labelOffset,0), text = '0cm ')
+    label(pos = vec(origin[0],origin[1]-labelOffset,-labelOffset), text = '0cm ')
     
-    label(pos = vec(origin[0]+ 20,origin[1]-labelOffset,0), text = 'X Distance (cm)')
-    label(pos = vec(origin[0]-labelOffset,origin[1]+20 ,0), text = 'Y Distance (cm)')
+    label(pos = vec(origin[0]+ 20,origin[1]-labelOffset,-labelOffset), text = 'X Distance (cm)')
+    label(pos = vec(origin[0]-labelOffset,origin[1]+20 ,-labelOffset), text = 'Y Distance (cm)')
     label(pos = vec(origin[0]-labelOffset,origin[1]-labelOffset,3*scaleHeight), text = 'Voltage (V)')
     
     
